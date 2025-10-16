@@ -8,6 +8,12 @@ declare namespace App {
 	// interface PublicEnv {}
 }
 
+declare module '$service-worker' {
+	export const build: string[];
+	export const files: string[];
+	export const version: string;
+}
+
 interface ContactAddress {
 	label: string;
 	po_box?: string;
@@ -47,11 +53,7 @@ interface ContactInfo {
 	urls: ContactURL[];
 	birthday: string;
 	nickname: string;
-	// photo: {
-	// 	url: string;
-	// 	media_type: string;
-	// 	base64: string;
-	// };
+	photo_url?: string;
 	// name_prefix: string;
 	// name_suffix: string;
 	// gender: string;

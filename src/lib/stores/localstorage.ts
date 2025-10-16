@@ -6,7 +6,7 @@
  * @see https://github.com/babichjacob/svelte-localstorage/issues/22
  */
 import { writable, type Writable } from "svelte/store";
-import { browser } from "$app/env";
+import { browser } from "$app/environment";
 
 type Update<T> = Writable<T>["update"];
 type Set<T> = Writable<T>["set"];

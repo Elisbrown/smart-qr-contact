@@ -7,6 +7,7 @@
 
 	let qrcode: string;
 	let view_vcard = false;
+	
 
 	function remove_by_index<T>(
 		list: T[] | undefined,
@@ -59,9 +60,34 @@
 <main class="px-4">
 	<div class="md:flex items-start mx-auto justify-center">
 		<div class="max-w-prose md:mr-12">
-			<!-- <section id="photo" class="mt-20">
-				<PhotoUploader />
-			</section> -->
+			<section id="photo" class="my-12">
+				<h1 class="section-heading">Profile Picture</h1>
+				<fieldset class="flex items-center">
+					<input
+						aria-label="Profile picture URL"
+						type="url"
+						name="photo-url"
+						class="input w-full"
+						placeholder="https://example.com/photo.jpg"
+						bind:value={$contact.photo_url}
+					/>
+				</fieldset>
+				{#if $contact.photo_url && $contact.photo_url.trim()}
+					<div class="mt-4">
+						<p class="text-sm text-gray-600 mb-2">Preview:</p>
+						<img 
+							src={$contact.photo_url} 
+							alt="Profile picture preview" 
+							class="w-24 h-24 rounded-full object-cover border-2 border-gray-300"
+							on:error={(e) => {
+								e.target.style.display = 'none';
+							}}
+						/>
+					</div>
+				{:else}
+					<p class="text-sm text-gray-500 mt-2">Enter a photo URL to see preview</p>
+				{/if}
+			</section>
 
 			<section id="name" class="my-12">
 				<h1 class="section-heading">Your name</h1>
@@ -386,7 +412,7 @@
 			id="qrcode"
 			class="my-12 flex flex-col items-center justify-center"
 		>
-			<div class="bg-white shadow-md rounded-lg p-4 md:w-64 md:h-64">
+			<div class="bg-white shadow-md rounded-lg p-4 md:w-80 md:h-80 relative">
 				<QrCode data={$vcard} bind:qrcode />
 			</div>
 			<p class="text-center mt-12">

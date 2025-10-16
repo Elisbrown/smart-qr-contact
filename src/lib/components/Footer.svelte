@@ -7,13 +7,17 @@
 				mt-24 px-8 mb-36"
 >
 	<p>
-		Built with 🦄 by <a href="https://danawoodman.com" class="link"
-			>Dana Woodman</a
+		Built with ❤️ by <a href="https://sigalix.onrender.com" class="link"
+			>Sunyin Elisbrown</a
 		>
 	</p>
 	<p class="mt-6">
-		<a href="https://github.com/danawoodman/qrcontact" class="link"
-			>Source code</a
+		<a href="https://github.com/elisbrown" class="link"
+			>Checkout my github</a
 		>
+	<span class="block mt-4 text-xs text-slate-500 dark:text-slate-400">
+		Powered by <a href="https://github.com/danawoodman" class="link" target="_blank" rel="noopener">Dana Woodman</a>
+	
+	</span>
 	</p>
 </footer>

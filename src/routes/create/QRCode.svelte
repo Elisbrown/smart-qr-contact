@@ -4,7 +4,15 @@
 	export let data: string;
 	export let qrcode: string;
 
-	$: promise = toDataURL(data, { maskPattern: 7 }).then((url) => {
+	$: promise = toDataURL(data, { 
+		maskPattern: 7,
+		width: 400,
+		margin: 2,
+		color: {
+			dark: '#000000',
+			light: '#FFFFFF'
+		}
+	}).then((url) => {
 		qrcode = url;
 		return url;
 	});
@@ -17,8 +25,8 @@
 		<img
 			src={value}
 			alt="QR Code"
-			width="300px"
-			height="300px"
+			width="400px"
+			height="400px"
 			class="w-full"
 		/>
 	{:catch error}

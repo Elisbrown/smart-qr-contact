@@ -35,6 +35,7 @@ export const contact = local_storage_store<Partial<ContactInfo>>("contact", {
 		{ label: "homepage", href: "https://mysite.com" },
 		{ label: "work", href: "https://google.com" },
 	],
+	photo_url: "",
 });
 
 export const file_name = derived(contact, ($contact) => {
@@ -47,7 +48,7 @@ export const file_name = derived(contact, ($contact) => {
 export const vcard = derived(contact, ($contact) => make_vcard($contact));
 
 function make_vcard(contact: Partial<ContactInfo>): string {
-	const parts: string[] = ["BEGIN:VCARD", "VERSION:4.0"];
+	const parts: string[] = ["BEGIN:VCARD", "VERSION:3.0"];
 
 	if (contact.first_name || contact.last_name || contact.middle_name) {
 		const names = [contact.first_name, contact.middle_name, contact.last_name];
@@ -63,12 +64,11 @@ function make_vcard(contact: Partial<ContactInfo>): string {
 
 	if (contact.nickname) parts.push(`NICKNAME:${contact.nickname}`);
 
-	// if (contact?.photo) {
-	// parts.push(
-	// 	// `PHOTO;TYPE=${contact.photo.media_type};ENCODING=b:${contact.photo.base64}`
-	// 	`PHOTO;MEDIATYPE=image/jpeg:https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8OHx8bWFuJTIwZmFjZXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60` //${contact.photo.base64}`
-	// );
-	// }
+	if (contact.photo_url && contact.photo_url.trim()) {
+		// Try multiple Samsung-compatible formats
+		parts.push(`PHOTO:${contact.photo_url}`);
+		parts.push(`PHOTO;VALUE=uri:${contact.photo_url}`);
+	}
 
 	parts.push(
 		...construct_fields(
@@ -130,7 +130,7 @@ function construct_fields<T>(
 	return fields;
 }
 
-function has_values(obj: Record<string, any>): boolean {
+function has_values(obj: any): boolean {
 	const values = Object.values(obj).map((v) => (v === "" ? undefined : v));
 	const flushed = flush(values);
 	return Boolean(flushed?.length);
