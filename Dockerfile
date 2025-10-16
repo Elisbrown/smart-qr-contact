@@ -9,7 +9,10 @@ WORKDIR /app
 
 # Install dependencies based on the preferred package manager
 COPY package.json package-lock.json* ./
-RUN npm ci --only=production
+RUN npm ci
+
+FROM deps AS prod-deps
+RUN npm prune --omit=dev
 
 # Rebuild the source code only when needed
 FROM base AS builder
@@ -32,9 +35,10 @@ RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 sveltekit
 
 # Copy the built application
-COPY --from=builder /app/build ./build
 COPY --from=builder /app/package.json ./package.json
-COPY --from=deps /app/node_modules ./node_modules
+COPY --from=builder /app/package-lock.json ./package-lock.json
+COPY --from=prod-deps /app/node_modules ./node_modules
+COPY --from=builder /app/.svelte-kit ./.svelte-kit
 
 # Change ownership to the sveltekit user
 RUN chown -R sveltekit:nodejs /app
